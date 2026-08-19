@@ -1,0 +1,78 @@
+services:
+  db:
+    image: mariadb:11.8
+    container_name: vless-sub-db
+    restart: unless-stopped
+
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: vless_subscriptions
+      MARIADB_USER: vless
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+
+    volumes:
+      - mariadb-data:/var/lib/mysql
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+
+    #ports:
+    #  - "127.0.0.1:3306:3306"
+
+    networks:
+      - vless-sub
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "healthcheck.sh",
+          "--connect",
+          "--innodb_initialized"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+
+  backend:
+    build:
+      context: ./backend
+
+    container_name: vless-sub-backend
+    restart: unless-stopped
+
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: vless_subscriptions
+      DB_USER: vless
+      DB_PASSWORD: ${MARIADB_PASSWORD}
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+    ports:
+      - "127.0.0.1:8000:8000"
+
+    networks:
+      - vless-sub
+
+    command:
+      - sh
+      - -c
+      - |
+        alembic upgrade head &&
+        exec uvicorn app.main:app \
+          --host 0.0.0.0 \
+          --port 8000 \
+          --proxy-headers
+
+
+volumes:
+  mariadb-data:
+
+
+networks:
+  vless-sub:
+    driver: bridge
