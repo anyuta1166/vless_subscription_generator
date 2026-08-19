@@ -2,19 +2,34 @@ from typing import Annotated
 
 from fastapi import Depends, FastAPI, HTTPException, Path
 from fastapi.responses import PlainTextResponse
+from fastapi.responses import RedirectResponse
 from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_db
 from app.models import Server, ServerUser, User
 from app.vless import build_vless_url
-
+from app.admin.assignments import router as admin_assignments_router
+from app.admin.routes import router as admin_users_router
+from app.admin.servers import router as admin_servers_router
 
 app = FastAPI(
     title="VLESS Subscription Backend",
     docs_url=None,
     redoc_url=None,
 )
+
+
+app.include_router(admin_users_router)
+app.include_router(admin_servers_router)
+app.include_router(admin_assignments_router)
+
+@app.get("/admin/", include_in_schema=False)
+async def admin_root():
+    return RedirectResponse(
+        url="/admin/users",
+        status_code=302,
+    )
 
 
 SubscriptionToken = Annotated[

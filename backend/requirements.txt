@@ -3,7 +3,9 @@ uvicorn[standard]
 
 SQLAlchemy
 asyncmy
-
 alembic
 
 pydantic-settings
+
+jinja2
+python-multipart

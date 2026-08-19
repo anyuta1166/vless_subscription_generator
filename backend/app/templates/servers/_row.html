@@ -1,0 +1,105 @@
+<tr
+    id="server-row-{{ server.id }}"
+    class="{% if not server.enabled %}disabled{% endif %}"
+>
+    <td>
+        {{ server.id }}
+    </td>
+
+    <td>
+        <code>{{ server.server_id }}</code>
+    </td>
+
+    <td>
+        <code>{{ server.host }}</code>
+    </td>
+
+    <td>
+        {{ server.port }}
+    </td>
+
+    <td>
+        {% if server.sni %}
+            <code>{{ server.sni }}</code>
+        {% else %}
+            —
+        {% endif %}
+    </td>
+
+    <td class="token">
+        {% if server.reality_public_key %}
+            <code>{{ server.reality_public_key }}</code>
+        {% else %}
+            —
+        {% endif %}
+    </td>
+
+    <td>
+        {% if server.reality_short_id %}
+            <code>{{ server.reality_short_id }}</code>
+        {% else %}
+            —
+        {% endif %}
+    </td>
+
+    <td>
+        {{ server.sort_order }}
+    </td>
+
+    <td>
+        {% if server.enabled %}
+            <span class="enabled">
+                Enabled
+            </span>
+        {% else %}
+            Disabled
+        {% endif %}
+    </td>
+
+    <td>
+        <div class="actions">
+
+            <a
+                class="button"
+                href="/admin/servers/{{ server.id }}/edit"
+            >
+                Edit
+            </a>
+
+
+            <form
+                method="post"
+                action="/admin/servers/{{ server.id }}/toggle"
+                hx-post="/admin/servers/{{ server.id }}/toggle"
+                hx-target="#server-row-{{ server.id }}"
+                hx-swap="outerHTML"
+            >
+                <button type="submit">
+                    {% if server.enabled %}
+                        Disable
+                    {% else %}
+                        Enable
+                    {% endif %}
+                </button>
+            </form>
+
+
+            <form
+                method="post"
+                action="/admin/servers/{{ server.id }}/delete"
+                hx-post="/admin/servers/{{ server.id }}/delete"
+                hx-target="#server-row-{{ server.id }}"
+                hx-swap="outerHTML"
+                hx-confirm="Удалить сервер {{ server.server_id }}? Все UUID пользователей на этом сервере также будут удалены."
+            >
+                <button
+                    type="submit"
+                    class="danger"
+                >
+                    Delete
+                </button>
+            </form>
+
+        </div>
+    </td>
+</tr>

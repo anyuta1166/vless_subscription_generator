@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}
+Assignments — VLESS Admin
+{% endblock %}
+
+
+{% block content %}
+
+<h1>Assignments</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Servers</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for user, assignment_count in users %}
+
+            <tr
+                class="{% if not user.enabled %}disabled{% endif %}"
+            >
+                <td>
+                    {{ user.id }}
+                </td>
+
+                <td>
+                    <code>
+                        {{ user.user_id }}
+                    </code>
+                </td>
+
+                <td>
+                    {{ user.display_name }}
+                </td>
+
+                <td>
+                    {{ user.email }}
+                </td>
+
+                <td>
+                    {{ assignment_count }}
+                </td>
+
+                <td>
+                    <a
+                        class="button"
+                        href="/admin/assignments/{{ user.id }}"
+                    >
+                        Manage
+                    </a>
+                </td>
+            </tr>
+
+        {% else %}
+
+            <tr>
+                <td colspan="6">
+                    No users
+                </td>
+            </tr>
+
+        {% endfor %}
+
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+Users — VLESS Admin
+{% endblock %}
+
+
+{% block content %}
+
+<h1>Users</h1>
+
+<div class="toolbar">
+    <a
+        class="button"
+        href="/admin/users/new"
+    >
+        Add user
+    </a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Subscription token</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for user in users %}
+            {% include "users/_row.html" %}
+        {% else %}
+            <tr>
+                <td colspan="7">
+                    No users
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

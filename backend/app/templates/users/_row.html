@@ -1,0 +1,97 @@
+<tr
+    id="user-row-{{ user.id }}"
+    class="{% if not user.enabled %}disabled{% endif %}"
+>
+    <td>
+        {{ user.id }}
+    </td>
+
+    <td>
+        <code>{{ user.user_id }}</code>
+    </td>
+
+    <td>
+        {{ user.display_name }}
+    </td>
+
+    <td>
+        {{ user.email }}
+    </td>
+
+    <td class="token">
+        <code>
+            {{ user.subscription_token }}
+        </code>
+    </td>
+
+    <td>
+        {% if user.enabled %}
+            <span class="enabled">
+                Enabled
+            </span>
+        {% else %}
+            Disabled
+        {% endif %}
+    </td>
+
+    <td>
+        <div class="actions">
+
+            <a
+                class="button"
+                href="/admin/users/{{ user.id }}/edit"
+            >
+                Edit
+            </a>
+
+
+            <form
+                method="post"
+                action="/admin/users/{{ user.id }}/toggle"
+                hx-post="/admin/users/{{ user.id }}/toggle"
+                hx-target="#user-row-{{ user.id }}"
+                hx-swap="outerHTML"
+            >
+                <button type="submit">
+                    {% if user.enabled %}
+                        Disable
+                    {% else %}
+                        Enable
+                    {% endif %}
+                </button>
+            </form>
+
+
+            <form
+                method="post"
+                action="/admin/users/{{ user.id }}/rotate-token"
+                hx-post="/admin/users/{{ user.id }}/rotate-token"
+                hx-target="#user-row-{{ user.id }}"
+                hx-swap="outerHTML"
+                hx-confirm="Сгенерировать новый token? Старая ссылка подписки перестанет работать."
+            >
+                <button type="submit">
+                    Rotate token
+                </button>
+            </form>
+
+
+            <form
+                method="post"
+                action="/admin/users/{{ user.id }}/delete"
+                hx-post="/admin/users/{{ user.id }}/delete"
+                hx-target="#user-row-{{ user.id }}"
+                hx-swap="outerHTML"
+                hx-confirm="Удалить пользователя {{ user.display_name }}?"
+            >
+                <button
+                    type="submit"
+                    class="danger"
+                >
+                    Delete
+                </button>
+            </form>
+
+        </div>
+    </td>
+</tr>

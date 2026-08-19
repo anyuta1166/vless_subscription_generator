@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% if user and user.id %}
+    {% set editing = true %}
+{% else %}
+    {% set editing = false %}
+{% endif %}
+
+
+{% block title %}
+{% if editing %}
+Edit user
+{% else %}
+Add user
+{% endif %}
+— VLESS Admin
+{% endblock %}
+
+
+{% block content %}
+
+{% if editing %}
+    <h1>
+        Edit {{ user.display_name }}
+    </h1>
+{% else %}
+    <h1>
+        Add user
+    </h1>
+{% endif %}
+
+
+{% if error %}
+    <div class="error">
+        {{ error }}
+    </div>
+{% endif %}
+
+
+{% if editing %}
+<form
+    class="form"
+    method="post"
+    action="/admin/users/{{ user.id }}/edit"
+>
+{% else %}
+<form
+    class="form"
+    method="post"
+    action="/admin/users/new"
+>
+{% endif %}
+
+
+    <div class="field">
+        <label for="user_id">
+            User ID
+        </label>
+
+        <input
+            id="user_id"
+            name="user_id"
+            type="text"
+            maxlength="64"
+            required
+            pattern="[a-z0-9][a-z0-9._-]{0,63}"
+            value="{{ user.user_id if user else '' }}"
+        >
+
+        <div class="muted">
+            Например:
+            <code>maria</code>,
+            <code>sasha</code>,
+            <code>masha</code>
+        </div>
+    </div>
+
+
+    <div class="field">
+        <label for="display_name">
+            Display name
+        </label>
+
+        <input
+            id="display_name"
+            name="display_name"
+            type="text"
+            maxlength="128"
+            required
+            value="{{ user.display_name if user else '' }}"
+        >
+
+        <div class="muted">
+            Например:
+            <code>Мария</code>
+        </div>
+    </div>
+
+
+    <div class="field">
+        <label for="email">
+            Email
+        </label>
+
+        <input
+            id="email"
+            name="email"
+            type="email"
+            maxlength="255"
+            required
+            value="{{ user.email if user else '' }}"
+        >
+    </div>
+
+
+    {% if editing %}
+
+        <div class="field">
+            <label>
+                Subscription token
+            </label>
+
+            <code class="token">
+                {{ user.subscription_token }}
+            </code>
+        </div>
+
+
+        <div class="field">
+            <label>
+                <input
+                    type="checkbox"
+                    name="enabled"
+                    value="true"
+                    {% if user.enabled %}checked{% endif %}
+                >
+
+                Enabled
+            </label>
+        </div>
+
+    {% endif %}
+
+
+    <div class="actions">
+        <button type="submit">
+            Save
+        </button>
+
+        <a
+            class="button"
+            href="/admin/users"
+        >
+            Cancel
+        </a>
+    </div>
+
+</form>
+
+{% endblock %}

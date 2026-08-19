@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}
+Servers — VLESS Admin
+{% endblock %}
+
+
+{% block content %}
+
+<h1>Servers</h1>
+
+<div class="toolbar">
+    <a
+        class="button"
+        href="/admin/servers/new"
+    >
+        Add server
+    </a>
+</div>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Server ID</th>
+            <th>Host</th>
+            <th>Port</th>
+            <th>SNI</th>
+            <th>Reality public key</th>
+            <th>Short ID</th>
+            <th>Sort</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for server in servers %}
+            {% include "servers/_row.html" %}
+        {% else %}
+            <tr>
+                <td colspan="10">
+                    No servers
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

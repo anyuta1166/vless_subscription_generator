@@ -1,0 +1,115 @@
+<tr
+    id="assignment-row-{{ user.id }}-{{ server.id }}"
+    class="{% if not server.enabled %}disabled{% endif %}"
+>
+
+    <td>
+        <code>
+            {{ server.server_id }}
+        </code>
+
+        {% if not server.enabled %}
+            <div class="muted">
+                Server disabled
+            </div>
+        {% endif %}
+    </td>
+
+
+    <td>
+        <code>
+            {{ server.host }}:{{ server.port }}
+        </code>
+    </td>
+
+
+    <td>
+
+        {% if error %}
+            <div class="error">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <input
+            form="assignment-form-{{ user.id }}-{{ server.id }}"
+            type="text"
+            name="uuid"
+            maxlength="36"
+            size="38"
+            placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+            value="{{ assignment.uuid if assignment else '' }}"
+            required
+        >
+
+    </td>
+
+
+    <td>
+
+        <label>
+            <input
+                form="assignment-form-{{ user.id }}-{{ server.id }}"
+                type="checkbox"
+                name="enabled"
+                value="true"
+                {% if not assignment or assignment.enabled %}
+                    checked
+                {% endif %}
+            >
+
+            Enabled
+        </label>
+
+    </td>
+
+
+    <td>
+
+        <div class="actions">
+
+            <form
+                id="assignment-form-{{ user.id }}-{{ server.id }}"
+                method="post"
+                action="/admin/assignments/{{ user.id }}/{{ server.id }}"
+                hx-post="/admin/assignments/{{ user.id }}/{{ server.id }}"
+                hx-target="#assignment-row-{{ user.id }}-{{ server.id }}"
+                hx-swap="outerHTML"
+            >
+                <button type="submit">
+                    {% if assignment %}
+                        Save
+                    {% else %}
+                        Add
+                    {% endif %}
+                </button>
+            </form>
+
+
+            {% if assignment %}
+
+                <form
+                    method="post"
+                    action="/admin/assignments/{{ user.id }}/{{ server.id }}/delete"
+                    hx-post="/admin/assignments/{{ user.id }}/{{ server.id }}/delete"
+                    hx-target="#assignment-row-{{ user.id }}-{{ server.id }}"
+                    hx-swap="outerHTML"
+                    hx-confirm="Удалить UUID пользователя {{ user.display_name }} с сервера {{ server.server_id }}?"
+                >
+
+                    <button
+                        type="submit"
+                        class="danger"
+                    >
+                        Delete
+                    </button>
+
+                </form>
+
+            {% endif %}
+
+        </div>
+
+    </td>
+
+</tr>

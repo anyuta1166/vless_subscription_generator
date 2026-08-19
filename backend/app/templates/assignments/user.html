@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}
+Assignments — {{ user.display_name }}
+{% endblock %}
+
+
+{% block content %}
+
+<h1>
+    Assignments — {{ user.display_name }}
+</h1>
+
+
+<p>
+    User ID:
+    <code>{{ user.user_id }}</code>
+</p>
+
+
+<div class="toolbar">
+    <a
+        class="button"
+        href="/admin/assignments"
+    >
+        Back
+    </a>
+</div>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Server</th>
+            <th>Host</th>
+            <th>UUID</th>
+            <th>Enabled</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for server, assignment in rows %}
+
+            {% include "assignments/_row.html" %}
+
+        {% else %}
+
+            <tr>
+                <td colspan="5">
+                    No servers
+                </td>
+            </tr>
+
+        {% endfor %}
+
+    </tbody>
+</table>
+
+{% endblock %}

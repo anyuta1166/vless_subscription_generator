@@ -1,17 +1,16 @@
 from datetime import datetime
 
 from sqlalchemy import (
-    BigInteger,
     Boolean,
     ForeignKey,
     Integer,
-    SmallInteger,
     String,
     TIMESTAMP,
     UniqueConstraint,
     Index,
     text,
 )
+from sqlalchemy.dialects.mysql import BIGINT, SMALLINT
 from sqlalchemy.orm import (
     DeclarativeBase,
     Mapped,
@@ -27,7 +26,7 @@ class User(Base):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(
-        BigInteger,
+        BIGINT(unsigned=True),
         primary_key=True,
         autoincrement=True,
     )
@@ -78,7 +77,7 @@ class Server(Base):
     __tablename__ = "servers"
 
     id: Mapped[int] = mapped_column(
-        BigInteger,
+        BIGINT(unsigned=True),
         primary_key=True,
         autoincrement=True,
     )
@@ -95,7 +94,7 @@ class Server(Base):
     )
 
     port: Mapped[int] = mapped_column(
-        SmallInteger,
+        SMALLINT(unsigned=True),
         nullable=False,
         server_default=text("443"),
     )
@@ -188,13 +187,13 @@ class ServerUser(Base):
     __tablename__ = "server_users"
 
     id: Mapped[int] = mapped_column(
-        BigInteger,
+        BIGINT(unsigned=True),
         primary_key=True,
         autoincrement=True,
     )
 
     server_pk: Mapped[int] = mapped_column(
-        BigInteger,
+        BIGINT(unsigned=True),
         ForeignKey(
             "servers.id",
             ondelete="CASCADE",
@@ -204,7 +203,7 @@ class ServerUser(Base):
     )
 
     user_pk: Mapped[int] = mapped_column(
-        BigInteger,
+        BIGINT(unsigned=True),
         ForeignKey(
             "users.id",
             ondelete="CASCADE",
