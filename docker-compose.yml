@@ -47,6 +47,7 @@ services:
       DB_NAME: vless_subscriptions
       DB_USER: vless
       DB_PASSWORD: ${MARIADB_PASSWORD}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL}
 
     depends_on:
       db:

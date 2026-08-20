@@ -19,9 +19,27 @@
     </td>
 
     <td class="token">
-        <code>
-            {{ user.subscription_token }}
+        {% set subscription_url =
+            public_base_url ~ "/sub/" ~ user.subscription_token
+        %}
+
+        <code id="subscription-url-{{ user.id }}">
+            {{ subscription_url }}
         </code>
+
+        <button
+            type="button"
+            onclick="
+                navigator.clipboard.writeText(
+                    document
+                        .getElementById('subscription-url-{{ user.id }}')
+                        .textContent
+                        .trim()
+                )
+            "
+        >
+            Copy
+        </button>
     </td>
 
     <td>

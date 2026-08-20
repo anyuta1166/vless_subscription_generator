@@ -14,6 +14,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.config import settings
 from app.database import get_db
 from app.models import User
 
@@ -84,6 +85,7 @@ async def users_list(
         name="users/list.html",
         context={
             "users": users,
+            "public_base_url": settings.public_base_url.rstrip("/"),
         },
     )
 
@@ -306,6 +308,7 @@ async def user_toggle(
             name="users/_row.html",
             context={
                 "user": user,
+                "public_base_url": settings.public_base_url.rstrip("/"),
             },
         )
 
@@ -336,6 +339,7 @@ async def user_rotate_token(
             name="users/_row.html",
             context={
                 "user": user,
+                "public_base_url": settings.public_base_url.rstrip("/"),
             },
         )
 

@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     db_user: str = "vless"
     db_password: str
 
+    public_base_url: str
+
     model_config = SettingsConfigDict(
         env_prefix="",
         case_sensitive=False,
