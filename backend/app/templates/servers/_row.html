@@ -1,6 +1,6 @@
 <tr
     id="server-row-{{ server.id }}"
-    class="{% if not server.enabled %}disabled{% endif %}"
+    class="{% if not server.enabled %}opacity-50{% endif %}"
 >
     <td>
         {{ server.id }}
@@ -22,15 +22,17 @@
         {% if server.sni %}
             <code>{{ server.sni }}</code>
         {% else %}
-            —
+            <span class="text-body-secondary">—</span>
         {% endif %}
     </td>
 
-    <td class="token">
+    <td>
         {% if server.reality_public_key %}
-            <code>{{ server.reality_public_key }}</code>
+            <code class="small">
+                {{ server.reality_public_key }}
+            </code>
         {% else %}
-            —
+            <span class="text-body-secondary">—</span>
         {% endif %}
     </td>
 
@@ -38,7 +40,7 @@
         {% if server.reality_short_id %}
             <code>{{ server.reality_short_id }}</code>
         {% else %}
-            —
+            <span class="text-body-secondary">—</span>
         {% endif %}
     </td>
 
@@ -48,24 +50,25 @@
 
     <td>
         {% if server.enabled %}
-            <span class="enabled">
+            <span class="badge text-bg-success">
                 Enabled
             </span>
         {% else %}
-            Disabled
+            <span class="badge text-bg-secondary">
+                Disabled
+            </span>
         {% endif %}
     </td>
 
     <td>
-        <div class="actions">
+        <div class="d-flex gap-2 flex-wrap">
 
             <a
-                class="button"
+                class="btn btn-sm btn-outline-primary"
                 href="/admin/servers/{{ server.id }}/edit"
             >
                 Edit
             </a>
-
 
             <form
                 method="post"
@@ -74,7 +77,10 @@
                 hx-target="#server-row-{{ server.id }}"
                 hx-swap="outerHTML"
             >
-                <button type="submit">
+                <button
+                    type="submit"
+                    class="btn btn-sm btn-outline-secondary"
+                >
                     {% if server.enabled %}
                         Disable
                     {% else %}
@@ -82,7 +88,6 @@
                     {% endif %}
                 </button>
             </form>
-
 
             <form
                 method="post"
@@ -94,7 +99,7 @@
             >
                 <button
                     type="submit"
-                    class="danger"
+                    class="btn btn-sm btn-outline-danger"
                 >
                     Delete
                 </button>

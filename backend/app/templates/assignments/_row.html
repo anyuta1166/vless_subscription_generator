@@ -1,16 +1,16 @@
 <tr
     id="assignment-row-{{ user.id }}-{{ server.id }}"
-    class="{% if not server.enabled %}disabled{% endif %}"
+    class="{% if not server.enabled %}opacity-50{% endif %}"
 >
 
     <td>
-        <code>
-            {{ server.server_id }}
-        </code>
+        <code>{{ server.server_id }}</code>
 
         {% if not server.enabled %}
-            <div class="muted">
-                Server disabled
+            <div class="mt-1">
+                <span class="badge text-bg-secondary">
+                    Server disabled
+                </span>
             </div>
         {% endif %}
     </td>
@@ -23,10 +23,10 @@
     </td>
 
 
-    <td>
+    <td style="min-width: 390px;">
 
         {% if error %}
-            <div class="error">
+            <div class="alert alert-danger py-2 mb-2">
                 {{ error }}
             </div>
         {% endif %}
@@ -36,10 +36,10 @@
             type="text"
             name="uuid"
             maxlength="36"
-            size="38"
             placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
             value="{{ assignment.uuid if assignment else '' }}"
             required
+            class="form-control font-monospace"
         >
 
     </td>
@@ -47,10 +47,13 @@
 
     <td>
 
-        <label>
+        <div class="form-check">
+
             <input
                 form="assignment-form-{{ user.id }}-{{ server.id }}"
+                class="form-check-input"
                 type="checkbox"
+                id="enabled-{{ user.id }}-{{ server.id }}"
                 name="enabled"
                 value="true"
                 {% if not assignment or assignment.enabled %}
@@ -58,15 +61,21 @@
                 {% endif %}
             >
 
-            Enabled
-        </label>
+            <label
+                class="form-check-label"
+                for="enabled-{{ user.id }}-{{ server.id }}"
+            >
+                Enabled
+            </label>
+
+        </div>
 
     </td>
 
 
     <td>
 
-        <div class="actions">
+        <div class="d-flex gap-2 flex-wrap">
 
             <form
                 id="assignment-form-{{ user.id }}-{{ server.id }}"
@@ -76,7 +85,10 @@
                 hx-target="#assignment-row-{{ user.id }}-{{ server.id }}"
                 hx-swap="outerHTML"
             >
-                <button type="submit">
+                <button
+                    type="submit"
+                    class="btn btn-sm btn-primary"
+                >
                     {% if assignment %}
                         Save
                     {% else %}
@@ -96,14 +108,12 @@
                     hx-swap="outerHTML"
                     hx-confirm="Удалить UUID пользователя {{ user.display_name }} с сервера {{ server.server_id }}?"
                 >
-
                     <button
                         type="submit"
-                        class="danger"
+                        class="btn btn-sm btn-outline-danger"
                     >
                         Delete
                     </button>
-
                 </form>
 
             {% endif %}

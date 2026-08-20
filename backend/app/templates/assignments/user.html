@@ -7,55 +7,60 @@ Assignments — {{ user.display_name }}
 
 {% block content %}
 
-<h1>
-    Assignments — {{ user.display_name }}
-</h1>
+<div class="d-flex justify-content-between align-items-start mb-4">
 
+    <div>
+        <h1 class="mb-1">
+            Assignments — {{ user.display_name }}
+        </h1>
 
-<p>
-    User ID:
-    <code>{{ user.user_id }}</code>
-</p>
+        <div class="text-body-secondary">
+            User ID:
+            <code>{{ user.user_id }}</code>
+        </div>
+    </div>
 
-
-<div class="toolbar">
     <a
-        class="button"
+        class="btn btn-secondary"
         href="/admin/assignments"
     >
         Back
     </a>
+
 </div>
 
 
-<table>
-    <thead>
-        <tr>
-            <th>Server</th>
-            <th>Host</th>
-            <th>UUID</th>
-            <th>Enabled</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
+<div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
 
-    <tbody>
-
-        {% for server, assignment in rows %}
-
-            {% include "assignments/_row.html" %}
-
-        {% else %}
-
+        <thead>
             <tr>
-                <td colspan="5">
-                    No servers
-                </td>
+                <th>Server</th>
+                <th>Host</th>
+                <th>UUID</th>
+                <th>Enabled</th>
+                <th>Actions</th>
             </tr>
+        </thead>
 
-        {% endfor %}
+        <tbody>
 
-    </tbody>
-</table>
+            {% for server, assignment in rows %}
+                {% include "assignments/_row.html" %}
+            {% else %}
+                <tr>
+                    <td
+                        colspan="5"
+                        class="text-center text-body-secondary"
+                    >
+                        No servers
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+</div>
 
 {% endblock %}

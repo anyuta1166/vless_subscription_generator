@@ -1,6 +1,6 @@
 <tr
     id="user-row-{{ user.id }}"
-    class="{% if not user.enabled %}disabled{% endif %}"
+    class="{% if not user.enabled %}opacity-50{% endif %}"
 >
     <td>
         {{ user.id }}
@@ -18,45 +18,57 @@
         {{ user.email }}
     </td>
 
-    <td class="token">
+    <td class="subscription-url">
+
         {% set subscription_url =
             public_base_url ~ "/sub/" ~ user.subscription_token
         %}
 
-        <code id="subscription-url-{{ user.id }}">
-            {{ subscription_url }}
-        </code>
+        <div class="d-flex gap-2 align-items-center">
 
-        <button
-            type="button"
-            onclick="
-                navigator.clipboard.writeText(
-                    document
-                        .getElementById('subscription-url-{{ user.id }}')
-                        .textContent
-                        .trim()
-                )
-            "
-        >
-            Copy
-        </button>
+            <code
+                id="subscription-url-{{ user.id }}"
+                class="small"
+            >
+                {{ subscription_url }}
+            </code>
+
+            <button
+                type="button"
+                class="btn btn-sm btn-outline-secondary"
+                onclick="
+                    navigator.clipboard.writeText(
+                        document
+                            .getElementById('subscription-url-{{ user.id }}')
+                            .textContent
+                            .trim()
+                    )
+                "
+            >
+                Copy
+            </button>
+
+        </div>
+
     </td>
 
     <td>
         {% if user.enabled %}
-            <span class="enabled">
+            <span class="badge text-bg-success">
                 Enabled
             </span>
         {% else %}
-            Disabled
+            <span class="badge text-bg-secondary">
+                Disabled
+            </span>
         {% endif %}
     </td>
 
     <td>
-        <div class="actions">
+        <div class="d-flex gap-2 flex-wrap">
 
             <a
-                class="button"
+                class="btn btn-sm btn-outline-primary"
                 href="/admin/users/{{ user.id }}/edit"
             >
                 Edit
@@ -70,7 +82,10 @@
                 hx-target="#user-row-{{ user.id }}"
                 hx-swap="outerHTML"
             >
-                <button type="submit">
+                <button
+                    type="submit"
+                    class="btn btn-sm btn-outline-secondary"
+                >
                     {% if user.enabled %}
                         Disable
                     {% else %}
@@ -86,9 +101,12 @@
                 hx-post="/admin/users/{{ user.id }}/rotate-token"
                 hx-target="#user-row-{{ user.id }}"
                 hx-swap="outerHTML"
-                hx-confirm="Сгенерировать новый token? Старая ссылка подписки перестанет работать."
+                hx-confirm="Сгенерировать новый token? Старая ссылка перестанет работать."
             >
-                <button type="submit">
+                <button
+                    type="submit"
+                    class="btn btn-sm btn-outline-warning"
+                >
                     Rotate token
                 </button>
             </form>
@@ -104,7 +122,7 @@
             >
                 <button
                     type="submit"
-                    class="danger"
+                    class="btn btn-sm btn-outline-danger"
                 >
                     Delete
                 </button>

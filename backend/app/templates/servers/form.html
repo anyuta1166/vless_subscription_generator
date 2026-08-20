@@ -19,293 +19,377 @@ Add server
 
 {% block content %}
 
-{% if editing %}
-    <h1>
-        Edit {{ server.server_id }}
-    </h1>
-{% else %}
-    <h1>
-        Add server
-    </h1>
-{% endif %}
+<div class="row">
+    <div class="col-xl-7 col-lg-9">
+
+        {% if editing %}
+            <h1 class="mb-4">
+                Edit {{ server.server_id }}
+            </h1>
+        {% else %}
+            <h1 class="mb-4">
+                Add server
+            </h1>
+        {% endif %}
 
 
-{% if error %}
-    <div class="error">
-        {{ error }}
-    </div>
-{% endif %}
+        {% if error %}
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+        {% endif %}
 
 
-{% if editing %}
-<form
-    class="form"
-    method="post"
-    action="/admin/servers/{{ server.id }}/edit"
->
-{% else %}
-<form
-    class="form"
-    method="post"
-    action="/admin/servers/new"
->
-{% endif %}
-
-
-    <div class="field">
-        <label for="server_id">
-            Server ID
-        </label>
-
-        <input
-            id="server_id"
-            name="server_id"
-            type="text"
-            maxlength="64"
-            required
-            value="{{ server.server_id if server else '' }}"
+        {% if editing %}
+        <form
+            method="post"
+            action="/admin/servers/{{ server.id }}/edit"
         >
-
-        <div class="muted">
-            Например:
-            <code>kz-ala01</code>
-        </div>
-    </div>
-
-
-    <div class="field">
-        <label for="host">
-            Host
-        </label>
-
-        <input
-            id="host"
-            name="host"
-            type="text"
-            maxlength="255"
-            required
-            value="{{ server.host if server else '' }}"
+        {% else %}
+        <form
+            method="post"
+            action="/admin/servers/new"
         >
-
-        <div class="muted">
-            Например:
-            <code>kz-ala01.anyuta.co.za</code>
-        </div>
-    </div>
+        {% endif %}
 
 
-    <div class="field">
-        <label for="port">
-            Port
-        </label>
+            <div class="row">
 
-        <input
-            id="port"
-            name="port"
-            type="number"
-            min="1"
-            max="65535"
-            required
-            value="{{ server.port if server else 443 }}"
-        >
-    </div>
+                <div class="col-md-6 mb-3">
+                    <label
+                        for="server_id"
+                        class="form-label"
+                    >
+                        Server ID
+                    </label>
 
+                    <input
+                        id="server_id"
+                        name="server_id"
+                        type="text"
+                        maxlength="64"
+                        required
+                        class="form-control"
+                        value="{{ server.server_id if server else '' }}"
+                    >
 
-    <div class="field">
-        <label for="encryption">
-            Encryption
-        </label>
-
-        <input
-            id="encryption"
-            name="encryption"
-            type="text"
-            maxlength="32"
-            value="{{ server.encryption if server else '' }}"
-        >
-
-        <div class="muted">
-            Для текущего VLESS оставляем пустым.
-        </div>
-    </div>
+                    <div class="form-text">
+                        Например:
+                        <code>kz-ala01</code>
+                    </div>
+                </div>
 
 
-    <div class="field">
-        <label for="flow">
-            Flow
-        </label>
+                <div class="col-md-6 mb-3">
+                    <label
+                        for="host"
+                        class="form-label"
+                    >
+                        Host
+                    </label>
 
-        <input
-            id="flow"
-            name="flow"
-            type="text"
-            maxlength="64"
-            value="{{ server.flow if server and server.flow is not none else 'xtls-rprx-vision' }}"
-        >
-    </div>
+                    <input
+                        id="host"
+                        name="host"
+                        type="text"
+                        maxlength="255"
+                        required
+                        class="form-control"
+                        value="{{ server.host if server else '' }}"
+                    >
+                </div>
 
-
-    <div class="field">
-        <label for="transport_type">
-            Transport type
-        </label>
-
-        <input
-            id="transport_type"
-            name="transport_type"
-            type="text"
-            maxlength="32"
-            required
-            value="{{ server.transport_type if server else 'tcp' }}"
-        >
-    </div>
+            </div>
 
 
-    <div class="field">
-        <label for="security">
-            Security
-        </label>
+            <div class="row">
 
-        <input
-            id="security"
-            name="security"
-            type="text"
-            maxlength="32"
-            required
-            value="{{ server.security if server else 'reality' }}"
-        >
-    </div>
+                <div class="col-md-3 mb-3">
+                    <label
+                        for="port"
+                        class="form-label"
+                    >
+                        Port
+                    </label>
 
-
-    <div class="field">
-        <label for="sni">
-            SNI
-        </label>
-
-        <input
-            id="sni"
-            name="sni"
-            type="text"
-            maxlength="255"
-            value="{{ server.sni if server and server.sni else '' }}"
-        >
-
-        <div class="muted">
-            Например:
-            <code>nur.kz</code>
-        </div>
-    </div>
+                    <input
+                        id="port"
+                        name="port"
+                        type="number"
+                        min="1"
+                        max="65535"
+                        required
+                        class="form-control"
+                        value="{{ server.port if server else 443 }}"
+                    >
+                </div>
 
 
-    <div class="field">
-        <label for="fingerprint">
-            Fingerprint
-        </label>
+                <div class="col-md-3 mb-3">
+                    <label
+                        for="sort_order"
+                        class="form-label"
+                    >
+                        Sort order
+                    </label>
 
-        <input
-            id="fingerprint"
-            name="fingerprint"
-            type="text"
-            maxlength="64"
-            value="{{ server.fingerprint if server and server.fingerprint else 'chrome' }}"
-        >
-    </div>
-
-
-    <div class="field">
-        <label for="reality_public_key">
-            Reality public key
-        </label>
-
-        <input
-            id="reality_public_key"
-            name="reality_public_key"
-            type="text"
-            maxlength="255"
-            value="{{ server.reality_public_key if server and server.reality_public_key else '' }}"
-        >
-    </div>
+                    <input
+                        id="sort_order"
+                        name="sort_order"
+                        type="number"
+                        class="form-control"
+                        value="{{ server.sort_order if server else 0 }}"
+                    >
+                </div>
 
 
-    <div class="field">
-        <label for="reality_short_id">
-            Reality short ID
-        </label>
+                <div class="col-md-6 mb-3">
+                    <label
+                        for="sni"
+                        class="form-label"
+                    >
+                        SNI
+                    </label>
 
-        <input
-            id="reality_short_id"
-            name="reality_short_id"
-            type="text"
-            maxlength="255"
-            value="{{ server.reality_short_id if server and server.reality_short_id else '' }}"
-        >
-    </div>
+                    <input
+                        id="sni"
+                        name="sni"
+                        type="text"
+                        maxlength="255"
+                        class="form-control"
+                        value="{{ server.sni if server and server.sni else '' }}"
+                    >
+                </div>
 
-
-    <div class="field">
-        <label for="alpn">
-            ALPN
-        </label>
-
-        <input
-            id="alpn"
-            name="alpn"
-            type="text"
-            maxlength="255"
-            value="{{ server.alpn if server and server.alpn else 'h2' }}"
-        >
-    </div>
+            </div>
 
 
-    <div class="field">
-        <label for="sort_order">
-            Sort order
-        </label>
+            <hr class="my-4">
 
-        <input
-            id="sort_order"
-            name="sort_order"
-            type="number"
-            value="{{ server.sort_order if server else 0 }}"
-        >
-
-        <div class="muted">
-            Меньшее число — выше сервер в подписке.
-        </div>
-    </div>
+            <h5 class="mb-3">VLESS</h5>
 
 
-    {% if editing %}
+            <div class="row">
 
-        <div class="field">
-            <label>
-                <input
-                    type="checkbox"
-                    name="enabled"
-                    value="true"
-                    {% if server.enabled %}checked{% endif %}
+                <div class="col-md-6 mb-3">
+                    <label
+                        for="flow"
+                        class="form-label"
+                    >
+                        Flow
+                    </label>
+
+                    <input
+                        id="flow"
+                        name="flow"
+                        type="text"
+                        maxlength="64"
+                        class="form-control"
+                        value="{{ server.flow if server and server.flow is not none else 'xtls-rprx-vision' }}"
+                    >
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+                    <label
+                        for="encryption"
+                        class="form-label"
+                    >
+                        Encryption
+                    </label>
+
+                    <input
+                        id="encryption"
+                        name="encryption"
+                        type="text"
+                        maxlength="32"
+                        class="form-control"
+                        value="{{ server.encryption if server else '' }}"
+                    >
+
+                    <div class="form-text">
+                        Для текущего VLESS оставляем пустым.
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <div class="col-md-4 mb-3">
+                    <label
+                        for="transport_type"
+                        class="form-label"
+                    >
+                        Transport type
+                    </label>
+
+                    <input
+                        id="transport_type"
+                        name="transport_type"
+                        type="text"
+                        maxlength="32"
+                        required
+                        class="form-control"
+                        value="{{ server.transport_type if server else 'tcp' }}"
+                    >
+                </div>
+
+
+                <div class="col-md-4 mb-3">
+                    <label
+                        for="security"
+                        class="form-label"
+                    >
+                        Security
+                    </label>
+
+                    <input
+                        id="security"
+                        name="security"
+                        type="text"
+                        maxlength="32"
+                        required
+                        class="form-control"
+                        value="{{ server.security if server else 'reality' }}"
+                    >
+                </div>
+
+
+                <div class="col-md-4 mb-3">
+                    <label
+                        for="fingerprint"
+                        class="form-label"
+                    >
+                        Fingerprint
+                    </label>
+
+                    <input
+                        id="fingerprint"
+                        name="fingerprint"
+                        type="text"
+                        maxlength="64"
+                        class="form-control"
+                        value="{{ server.fingerprint if server and server.fingerprint else 'chrome' }}"
+                    >
+                </div>
+
+            </div>
+
+
+            <hr class="my-4">
+
+            <h5 class="mb-3">Reality</h5>
+
+
+            <div class="mb-3">
+                <label
+                    for="reality_public_key"
+                    class="form-label"
                 >
+                    Reality public key
+                </label>
 
-                Enabled
-            </label>
-        </div>
+                <input
+                    id="reality_public_key"
+                    name="reality_public_key"
+                    type="text"
+                    maxlength="255"
+                    class="form-control font-monospace"
+                    value="{{ server.reality_public_key if server and server.reality_public_key else '' }}"
+                >
+            </div>
 
-    {% endif %}
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label
+                        for="reality_short_id"
+                        class="form-label"
+                    >
+                        Reality short ID
+                    </label>
+
+                    <input
+                        id="reality_short_id"
+                        name="reality_short_id"
+                        type="text"
+                        maxlength="255"
+                        class="form-control font-monospace"
+                        value="{{ server.reality_short_id if server and server.reality_short_id else '' }}"
+                    >
+                </div>
 
 
-    <div class="actions">
-        <button type="submit">
-            Save
-        </button>
+                <div class="col-md-6 mb-3">
+                    <label
+                        for="alpn"
+                        class="form-label"
+                    >
+                        ALPN
+                    </label>
 
-        <a
-            class="button"
-            href="/admin/servers"
-        >
-            Cancel
-        </a>
+                    <input
+                        id="alpn"
+                        name="alpn"
+                        type="text"
+                        maxlength="255"
+                        class="form-control"
+                        value="{{ server.alpn if server and server.alpn else 'h2' }}"
+                    >
+                </div>
+
+            </div>
+
+
+            {% if editing %}
+
+                <div class="form-check mb-4">
+
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="enabled"
+                        name="enabled"
+                        value="true"
+                        {% if server.enabled %}checked{% endif %}
+                    >
+
+                    <label
+                        class="form-check-label"
+                        for="enabled"
+                    >
+                        Enabled
+                    </label>
+
+                </div>
+
+            {% endif %}
+
+
+            <div class="d-flex gap-2">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Save
+                </button>
+
+                <a
+                    class="btn btn-secondary"
+                    href="/admin/servers"
+                >
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
     </div>
-
-</form>
+</div>
 
 {% endblock %}

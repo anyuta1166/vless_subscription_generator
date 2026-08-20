@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-bs-theme="auto">
 <head>
     <meta charset="utf-8">
 
@@ -14,174 +14,103 @@
         {% endblock %}
     </title>
 
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+        crossorigin="anonymous"
+    >
+
     <script
         src="https://unpkg.com/htmx.org/dist/htmx.min.js">
     </script>
 
     <style>
-        :root {
-            font-family:
-                system-ui,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
-
-            color-scheme: light dark;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            padding: 14px 24px;
-            border-bottom: 1px solid #8885;
-        }
-
-        header nav {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        main {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 24px;
-        }
-
-        a {
-            color: inherit;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            border-bottom: 1px solid #8885;
-            text-align: left;
-            vertical-align: middle;
-        }
-
-        th {
-            white-space: nowrap;
-        }
-
-        .actions {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-
-        button,
-        .button {
-            display: inline-block;
-            box-sizing: border-box;
-            padding: 7px 11px;
-            border: 1px solid #8888;
-            border-radius: 5px;
-            background: transparent;
-            color: inherit;
-            cursor: pointer;
-            text-decoration: none;
-            font: inherit;
-        }
-
-        button:hover,
-        .button:hover {
-            background: #8882;
-        }
-
-        .danger {
-            border-color: #c33;
-        }
-
-        .enabled {
-            font-weight: 600;
-        }
-
-        .disabled {
-            opacity: .55;
-        }
-
         code {
-            font-family: monospace;
-        }
-
-        .token {
-            font-size: .8em;
             overflow-wrap: anywhere;
         }
 
-        .toolbar {
-            margin-bottom: 20px;
-        }
-
-        .form {
-            max-width: 700px;
-        }
-
-        .field {
-            margin-bottom: 18px;
-        }
-
-        .field label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
-        .field input[type="text"],
-        .field input[type="email"] {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 8px 10px;
-            font: inherit;
-        }
-
-        .error {
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #c33;
-            border-radius: 5px;
-        }
-
-        .muted {
-            opacity: .65;
+        .subscription-url {
+            max-width: 420px;
+            overflow-wrap: anywhere;
         }
     </style>
 </head>
 
 <body>
 
-<header>
-    <nav>
-        <strong>VLESS Admin</strong>
+<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom mb-4">
+    <div class="container-fluid">
 
-        <a href="/admin/users">
-            Users
+        <a
+            class="navbar-brand"
+            href="/admin/"
+        >
+            VLESS Admin
         </a>
 
-        <a href="/admin/servers">
-            Servers
-        </a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarMain"
+            aria-controls="navbarMain"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <a href="/admin/assignments">
-            Assignments
-        </a>
-    </nav>
-</header>
+        <div
+            class="collapse navbar-collapse"
+            id="navbarMain"
+        >
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-<main>
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="/admin/users"
+                    >
+                        Users
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="/admin/servers"
+                    >
+                        Servers
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="/admin/assignments"
+                    >
+                        Assignments
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<main class="container-fluid px-4 pb-5">
     {% block content %}
     {% endblock %}
 </main>
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous">
+</script>
 
 </body>
 </html>
