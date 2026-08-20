@@ -69,7 +69,10 @@
 
                 <li class="nav-item">
                     <a
-                        class="nav-link"
+                        class="nav-link {% if request.url.path.startswith('/admin/users') %}active{% endif %}"
+                        {% if request.url.path.startswith('/admin/users') %}
+                            aria-current="page"
+                        {% endif %}
                         href="/admin/users"
                     >
                         Users
@@ -78,7 +81,10 @@
 
                 <li class="nav-item">
                     <a
-                        class="nav-link"
+                        class="nav-link {% if request.url.path.startswith('/admin/servers') %}active{% endif %}"
+                        {% if request.url.path.startswith('/admin/servers') %}
+                            aria-current="page"
+                        {% endif %}
                         href="/admin/servers"
                     >
                         Servers
@@ -87,7 +93,10 @@
 
                 <li class="nav-item">
                     <a
-                        class="nav-link"
+                        class="nav-link {% if request.url.path.startswith('/admin/assignments') %}active{% endif %}"
+                        {% if request.url.path.startswith('/admin/assignments') %}
+                            aria-current="page"
+                        {% endif %}
                         href="/admin/assignments"
                     >
                         Assignments
