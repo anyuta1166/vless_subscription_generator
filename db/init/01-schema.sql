@@ -70,6 +70,8 @@ CREATE TABLE server_users (
 
     uuid CHAR(36) NOT NULL,
 
+    custom_name VARCHAR(128) DEFAULT NULL,
+
     enabled BOOLEAN NOT NULL DEFAULT TRUE,
 
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

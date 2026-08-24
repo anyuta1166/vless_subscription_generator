@@ -45,6 +45,25 @@
     </td>
 
 
+    <td style="min-width: 220px;">
+
+        <input
+            form="assignment-form-{{ user.id }}-{{ server.id }}"
+            type="text"
+            name="custom_name"
+            maxlength="128"
+            placeholder="{{ server.server_id }}-{{ user.user_id }}"
+            value="{{ assignment.custom_name if assignment and assignment.custom_name else '' }}"
+            class="form-control"
+        >
+
+    <div class="form-text">
+        Пусто — использовать стандартное имя
+    </div>
+
+</td>
+
+
     <td>
 
         <div class="form-check">

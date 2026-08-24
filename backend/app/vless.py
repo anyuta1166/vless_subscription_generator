@@ -8,6 +8,7 @@ def build_vless_url(
     server: Server,
     user: User,
     uuid: str,
+    custom_name: str | None = None,
 ) -> str:
     params: list[tuple[str, str]] = []
 
@@ -39,7 +40,7 @@ def build_vless_url(
 
     query = urlencode(params)
 
-    node_name = f"{server.server_id}-{user.user_id}"
+    node_name = custom_name or f"{server.server_id}-{user.user_id}"
 
     fragment = quote(
         node_name,

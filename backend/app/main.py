@@ -65,6 +65,7 @@ async def subscription(
             User,
             Server,
             ServerUser.uuid,
+            ServerUser.custom_name,
         )
         .join(
             ServerUser,
@@ -101,8 +102,9 @@ async def subscription(
             user=user,
             server=server,
             uuid=uuid,
+            custom_name=custom_name,
         )
-        for user, server, uuid in rows
+        for user, server, uuid, custom_name in rows
     ]
 
     body = "\n".join(links) + "\n"

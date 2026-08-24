@@ -217,6 +217,11 @@ class ServerUser(Base):
         nullable=False,
     )
 
+    custom_name: Mapped[str | None] = mapped_column(
+        String(128),
+        nullable=True,
+    )
+
     enabled: Mapped[bool] = mapped_column(
         Boolean,
         nullable=False,

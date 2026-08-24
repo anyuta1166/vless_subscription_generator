@@ -206,6 +206,7 @@ async def assignment_save(
     user_pk: int,
     server_pk: int,
     uuid: str = Form(...),
+    custom_name: str = Form(""),
     enabled: bool = Form(False),
     db: AsyncSession = Depends(get_db),
 ):
@@ -238,6 +239,8 @@ async def assignment_save(
             detail=str(exc),
         )
 
+    custom_name = custom_name.strip() or None
+
     assignment = await get_assignment(
         db,
         user_pk=user_pk,
@@ -249,6 +252,7 @@ async def assignment_save(
             user_pk=user_pk,
             server_pk=server_pk,
             uuid=normalized_uuid,
+            custom_name=custom_name,
             enabled=enabled,
         )
 
@@ -256,6 +260,7 @@ async def assignment_save(
 
     else:
         assignment.uuid = normalized_uuid
+        assignment.custom_name = custom_name
         assignment.enabled = enabled
 
     try:
