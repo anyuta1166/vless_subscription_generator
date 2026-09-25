@@ -12,7 +12,9 @@ services:
 
     volumes:
       - mariadb-data:/var/lib/mysql
-      - ./db/init:/docker-entrypoint-initdb.d:ro
+
+    # The database schema is applied by Alembic in the backend service.
+    # db/init/01-schema.sql is kept as a current manual schema snapshot.
 
     #ports:
     #  - "127.0.0.1:3306:3306"
