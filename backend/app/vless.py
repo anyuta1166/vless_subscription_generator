@@ -15,9 +15,7 @@ def build_vless_url(
     if server.alpn is not None:
         params.append(("alpn", server.alpn))
 
-    # encryption="" принципиально оставляем:
-    # получится encryption=
-    params.append(("encryption", server.encryption))
+    params.append(("encryption", server.encryption or "none"))
 
     if server.flow is not None:
         params.append(("flow", server.flow))
